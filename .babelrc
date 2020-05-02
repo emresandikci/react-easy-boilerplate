@@ -1,0 +1,22 @@
+{
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {}
+      }
+    ],
+    [
+      "styled-components",
+      {
+        "ssr": true,
+        "pure": true,
+        "minify": true,
+        "transpileTemplateLiterals": true,
+        "displayName": true
+      }
+    ]
+  ]
+}
