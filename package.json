@@ -1,0 +1,79 @@
+{
+  "name": "react-easy-boilerplate",
+  "version": "1.0.0",
+  "description": "A React.js easy starter boilerplate",
+  "main": "index.js",
+  "repository": "https://github.com/emresandikci/react-easy-boilerplate",
+  "author": "emresandikci<me@emresandikci.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/emresandikci/react-easy-boilerplate/issues"
+  },
+  "homepage": "https://github.com/emresandikci/react-easy-boilerplate#readme",
+  "keywords": [
+    "reactjs",
+    "boilerplate",
+    "styled-components",
+    "styled-system",
+    "esducad-ui",
+    "kit"
+  ],
+  "scripts": {
+    "dev": "webpack-dev-server --open --mode development",
+    "start": "webpack-dev-server --open --mode production",
+    "build": "yarn clean && yarn lint:fix && yarn format && webpack --mode production",
+    "clean": "rimraf dist/",
+    "format": "prettier --write \"src/**/*.{js,jsx,css,json}\"",
+    "lint": "eslint src",
+    "lint:fix": "yarn lint --fix",
+    "validate": "yarn prettier --check \"src/**/*.{js,jsx,css,json}\" && yarn lint"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "src/**/!(*story).js": [
+      "yarn format",
+      "yarn lint:fix",
+      "yarn validate"
+    ]
+  },
+  "dependencies": {
+    "esducad-ui": "https://github.com/emresandikci/esducad-ui#master",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-helmet": "^6.0.0",
+    "react-router-dom": "^5.1.2",
+    "styled-components": "^5.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-react": "^7.9.4",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-plugin-styled-components": "^1.10.7",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.19.0",
+    "html-loader": "^1.1.0",
+    "html-webpack-plugin": "^4.3.0",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.1.7",
+    "nodemon": "^2.0.3",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "url-loader": "^4.1.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  }
+}
