@@ -6,5 +6,9 @@
   },
   "editor.tokenColorCustomizations": {
     "semanticHighlighting": true
-  }
+  },
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "emmet.triggerExpansionOnTab": true
 }
