@@ -10,10 +10,10 @@ module.exports = {
   target: 'web',
   entry: path.resolve(__dirname, 'src/index.js'),
   output: {
-    filename: 'build.js',
+    filename: 'build.js?v=[hash]',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    chunkFilename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js?=[hash]',
   },
   optimization: {
     splitChunks: {
