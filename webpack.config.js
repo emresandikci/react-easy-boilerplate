@@ -1,4 +1,5 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const htmlPackPlugin = new HtmlWebPackPlugin({
   template: path.resolve(__dirname, 'src/public/index.html'),
@@ -6,50 +7,76 @@ const htmlPackPlugin = new HtmlWebPackPlugin({
   hash: true,
 });
 
-module.exports = {
-  target: 'web',
-  entry: path.resolve(__dirname, 'src/index.js'),
-  output: {
-    filename: 'build.js?v=[hash]',
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
-    chunkFilename: '[name].bundle.js?=[hash]',
-  },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
+const copyWebpackPlugin = new CopyWebpackPlugin({
+  patterns: [
+    {
+      from: 'src/public',
+      globOptions: {
+        dot: true,
+        ignore: ['svg/*', '*.html'],
+      },
     },
-  },
-  devServer: {
+  ],
+});
+
+module.exports = (environments, { mobile, mode }) => {
+  const isProduction = mode === 'production' || process.env.NODE_ENV === 'production';
+
+  const PORT = 3000;
+
+  let devServer = {
     contentBase: path.resolve(__dirname, 'src/public'),
     compress: false,
-    port: 3000,
+    port: PORT,
     historyApiFallback: true,
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
+    overlay: true,
+    // https: true,
+    hot: true,
+  };
+
+  return {
+    target: 'web',
+    mode: isProduction ? 'production' : 'development',
+    entry: path.resolve(__dirname, 'src/index.js'),
+    output: {
+      filename: 'adc-[name].js?v=[hash]',
+      chunkFilename: 'adc-[name].js?v=[hash]',
+      path: path.resolve(__dirname, 'dist'),
+      publicPath: '/',
+    },
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
       },
-      {
-        test: /\.html$/,
-        use: [
-          {
-            loader: 'html-loader',
+      minimize: isProduction ? true : false,
+    },
+    devServer,
+    module: {
+      rules: [
+        {
+          test: /\.(js|jsx)$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
           },
-        ],
-      },
-      {
-        test: /\.(jpg|png|svg)$/,
-        use: {
-          loader: 'url-loader',
         },
-      },
-    ],
-  },
-  plugins: [htmlPackPlugin],
+        {
+          test: /\.html$/,
+          use: [
+            {
+              loader: 'html-loader',
+            },
+          ],
+        },
+        {
+          test: /\.(jpg|png|svg)$/,
+          use: {
+            loader: 'url-loader',
+          },
+        },
+      ],
+    },
+    plugins: [htmlPackPlugin, copyWebpackPlugin],
+    cache: isProduction ? false : true,
+  };
 };
