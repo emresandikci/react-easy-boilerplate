@@ -1,6 +1,8 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
+
 const htmlPackPlugin = new HtmlWebPackPlugin({
   template: path.resolve(__dirname, 'src/public/index.html'),
   filename: 'index.html',
@@ -48,9 +50,27 @@ module.exports = (environments, { mobile, mode }) => {
       splitChunks: {
         chunks: 'all',
       },
-      minimize: isProduction ? true : false,
+      minimize: isProduction,
+      minimizer: [
+        new TerserPlugin({
+          test: /\.js(\?.*)?$/i,
+          parallel: true,
+          extractComments: false,
+          exclude: /\/node_modules/,
+          terserOptions: {
+            ecma: 5,
+            compress: isProduction,
+            mangle: true,
+            output: {
+              comments: false,
+            },
+            safari10: true,
+          },
+        }),
+      ],
     },
     devServer,
+    devtool: !isProduction && 'source-map',
     module: {
       rules: [
         {
@@ -77,6 +97,6 @@ module.exports = (environments, { mobile, mode }) => {
       ],
     },
     plugins: [htmlPackPlugin, copyWebpackPlugin],
-    cache: isProduction ? false : true,
+    cache: isProduction,
   };
 };
