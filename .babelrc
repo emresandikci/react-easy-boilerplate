@@ -1,6 +1,7 @@
 {
   "presets": ["@babel/preset-env", "@babel/preset-react"],
   "plugins": [
+    "react-hot-loader/babel",
     [
       "module-resolver",
       {
@@ -8,6 +9,9 @@
         "alias": {}
       }
     ],
+    "@babel/plugin-syntax-dynamic-import",
+    ["minify-dead-code-elimination", { "optimizeRawSize": true }],
+    "@babel/plugin-transform-runtime",
     [
       "styled-components",
       {

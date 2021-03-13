@@ -1,6 +1,6 @@
-# React Easy Boilerplate
+# React Easy Boilerplate by emresandikci
 
-**A React.js easy starter boilerplate**
+## A React.js easy starter boilerplate with **webpack v5** 
 
 #
 
